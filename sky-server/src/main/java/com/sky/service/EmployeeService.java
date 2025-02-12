@@ -4,6 +4,9 @@ import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
 
+/**
+ * @author Diamond
+ */
 public interface EmployeeService {
 
     /**
