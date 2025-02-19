@@ -9,14 +9,17 @@ import java.util.List;
 
 /**
  * 封装分页查询结果
+ * @author Diamond
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageResult implements Serializable {
 
-    private long total; //总记录数
+    //总记录数
+    private long total;
 
-    private List records; //当前页数据集合
+    //当前页数据集合
+    private List records;
 
 }

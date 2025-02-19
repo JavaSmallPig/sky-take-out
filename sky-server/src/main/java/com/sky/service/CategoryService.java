@@ -1,6 +1,8 @@
 package com.sky.service;
 
 import com.sky.dto.CategoryDTO;
+import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.result.PageResult;
 
 /**
  * @Author Java小猪
@@ -13,4 +15,11 @@ public interface CategoryService {
      * @param categoryDTO
      */
     void saveCategory(CategoryDTO categoryDTO);
+
+    /**
+     * 分类分页查询
+     * @param categoryPageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO);
 }
