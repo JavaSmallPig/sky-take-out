@@ -45,8 +45,21 @@ public class CategoryController {
      */
     @GetMapping("/page")
     @ApiOperation("分类分页查询")
-    public Result<PageResult> pageQuery(@RequestBody CategoryPageQueryDTO categoryPageQueryDTO){
+    public Result<PageResult> pageQuery(CategoryPageQueryDTO categoryPageQueryDTO){
         PageResult pageResult = categoryService.pageQuery(categoryPageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    /**
+     * 启用、禁用分类
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用、禁用分类")
+    public Result startOrStop(@PathVariable Integer status,Long id){
+        categoryService.startOrStop(status,id);
+        return Result.success();
     }
 }
