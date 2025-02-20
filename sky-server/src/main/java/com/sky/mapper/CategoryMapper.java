@@ -6,6 +6,8 @@ import com.sky.entity.Category;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 
+import java.util.List;
+
 /**
  * @Author Java小猪
  * @Date 2025/2/19 17:24
@@ -24,6 +26,7 @@ public interface CategoryMapper {
 
     /**
      * 分类分页查询
+     *
      * @param categoryPageQueryDTO
      * @return
      */
@@ -31,14 +34,24 @@ public interface CategoryMapper {
 
     /**
      * 启用、禁用分类
+     *
      * @param category
      */
     void update(Category category);
 
     /**
      * 根据id删除分类
+     *
      * @param id
      */
     @Delete("delete from category where id = #{id}")
     void delById(Long id);
+
+    /**
+     * 根据类型查询分类
+     *
+     * @param type
+     * @return
+     */
+    List<Category> getByType(Integer type);
 }
