@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * 分类业务层
+ *
  * @author Diamond
  */
 @Service
@@ -40,6 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 新增分类
+     *
      * @param categoryDTO
      */
     @Override
@@ -62,21 +64,23 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 分类分页查询
+     *
      * @param categoryPageQueryDTO
      * @return
      */
     @Override
     public PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO) {
-        PageHelper.startPage(categoryPageQueryDTO.getPage(),categoryPageQueryDTO.getPageSize());
+        PageHelper.startPage(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
         //下一条sql进行分页，自动加入limit关键字分页
-        Page<Category> page =  categoryMapper.query(categoryPageQueryDTO);
+        Page<Category> page = categoryMapper.query(categoryPageQueryDTO);
         long total = page.getTotal();
         List<Category> records = page.getResult();
-        return new PageResult(total,records);
+        return new PageResult(total, records);
     }
 
     /**
      * 启用、禁用分类
+     *
      * @param status
      * @param id
      */
@@ -91,6 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 根据id删除分类
+     *
      * @param id
      */
     @Override
@@ -114,11 +119,29 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 根据类型查询分类
+     *
      * @param type
      * @return
      */
     @Override
     public List<Category> getByType(Integer type) {
         return categoryMapper.getByType(type);
+    }
+
+    /**
+     * 修改分类
+     *
+     * @param categoryDTO
+     */
+    @Override
+    public void updateCategory(CategoryDTO categoryDTO) {
+        Category category = Category.builder().build();
+        BeanUtils.copyProperties(categoryDTO, category);
+
+        //设置修改时间、修改人
+        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(BaseContext.getCurrentId());
+
+        categoryMapper.update(category);
     }
 }

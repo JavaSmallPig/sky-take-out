@@ -92,4 +92,16 @@ public class CategoryController {
         List<Category> categoryList = categoryService.getByType(type);
         return Result.success(categoryList);
     }
+
+    /**
+     * 修改分类
+     * @param categoryDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改分类")
+    public Result<String> updateCategory(@RequestBody CategoryDTO categoryDTO) {
+        categoryService.updateCategory(categoryDTO);
+        return Result.success();
+    }
 }

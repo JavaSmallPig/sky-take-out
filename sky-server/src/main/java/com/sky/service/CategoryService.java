@@ -45,4 +45,10 @@ public interface CategoryService {
      * @return
      */
     List<Category> getByType(Integer type);
+
+    /**
+     * 修改分类
+     * @param categoryDTO
+     */
+    void updateCategory(CategoryDTO categoryDTO);
 }
