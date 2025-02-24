@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Diamond
+ */
 @Data
 public class SetmealDTO implements Serializable {
 
