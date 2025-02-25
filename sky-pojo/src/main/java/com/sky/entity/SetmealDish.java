@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 
 /**
  * 套餐菜品关系
+ * @author Diamond
  */
 @Data
 @Builder

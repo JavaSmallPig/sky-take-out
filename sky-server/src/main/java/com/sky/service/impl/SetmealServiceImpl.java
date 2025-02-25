@@ -14,8 +14,10 @@ import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.SetmealService;
 import com.sky.vo.SetmealVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
  * @Date 2025/2/24 17:16
  */
 @Service
+@Slf4j
 public class SetmealServiceImpl implements SetmealService {
 
     @Resource
@@ -37,14 +40,15 @@ public class SetmealServiceImpl implements SetmealService {
      *
      * @param setmealDTO
      */
+    @Transactional
     @Override
-    public void save(SetmealDTO setmealDTO) {
+    public void saveWithDish(SetmealDTO setmealDTO) {
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealDTO, setmeal);
         //向套餐表插入数据
         setmealMapper.insert(setmeal);
         //获取生成的套餐id
-        Long setmealId = setmealDTO.getId();
+        Long setmealId = setmeal.getId();
         List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
         setmealDishes.forEach(setmealDish -> {
             setmealDish.setSetmealId(setmealId);
@@ -71,6 +75,7 @@ public class SetmealServiceImpl implements SetmealService {
      * @param ids
      */
     @Override
+    @Transactional
     public void deleteBatch(List<Long> ids) {
         ids.forEach(id->{
             Setmeal setmeal = setmealMapper.getById(id);
