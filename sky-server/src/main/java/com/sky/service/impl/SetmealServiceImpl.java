@@ -72,23 +72,65 @@ public class SetmealServiceImpl implements SetmealService {
 
     /**
      * 批量删除套餐
+     *
      * @param ids
      */
     @Override
     @Transactional
     public void deleteBatch(List<Long> ids) {
-        ids.forEach(id->{
+        ids.forEach(id -> {
             Setmeal setmeal = setmealMapper.getById(id);
-            if (setmeal.getStatus().equals(StatusConstant.ENABLE)){
+            if (setmeal.getStatus().equals(StatusConstant.ENABLE)) {
                 //起售中的套餐不能删除
                 throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
             }
         });
-        ids.forEach(setmealId->{
+        ids.forEach(setmealId -> {
             //删除套餐表中的数据
             setmealMapper.deleteById(setmealId);
             //删除套餐菜品关系表中的数据
             setmealDishMapper.deleteBySetmealId(setmealId);
         });
+    }
+
+    /**
+     * 根据id查询套餐,用于修改页面回显数据
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public SetmealVO getById(Long id) {
+        Setmeal setmeal = setmealMapper.getById(id);
+        List<SetmealDish> setmealDishes = setmealDishMapper.getBySetmealId(id);
+        SetmealVO setmealVO = new SetmealVO();
+        BeanUtils.copyProperties(setmeal, setmealVO);
+        setmealVO.setSetmealDishes(setmealDishes);
+        return setmealVO;
+    }
+
+    /**
+     * 修改套餐
+     *
+     * @param setmealDTO
+     */
+    @Transactional
+    @Override
+    public void update(SetmealDTO setmealDTO) {
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO, setmeal);
+        //1、修改套餐表，执行update
+        setmealMapper.update(setmeal);
+        //2、删除套餐和菜品的关联关系，操作setmeal_dish表，执行delete
+        // 套餐id
+        Long setmealId = setmeal.getId();
+        setmealDishMapper.deleteBySetmealId(setmealId);
+        //3、重新插入套餐和菜品的关联关系，操作setmeal_dish表
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+        setmealDishes.forEach(setmealDish -> {
+            setmealDish.setSetmealId(setmealId);
+        });
+        //执行insert
+        setmealDishMapper.insertBatch(setmealDishes);
     }
 }
