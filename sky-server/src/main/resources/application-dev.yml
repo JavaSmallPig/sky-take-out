@@ -11,3 +11,8 @@ sky:
     access-key-id: LTAI5tSJNsUZUGoUpWqseSLD
     access-key-secret: vmk3NT4jkFCibBlLSqshiec6CAvqhz
     bucket-name: sky-takeaway-study
+  redis:
+    host: 192.168.132.129
+    port: 6379
+    password: 1234
+    database: 0
