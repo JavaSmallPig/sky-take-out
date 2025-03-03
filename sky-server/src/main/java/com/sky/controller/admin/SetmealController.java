@@ -17,7 +17,7 @@ import java.util.List;
  * @Author Java小猪
  * @Date 2025/2/24 17:12
  */
-@RestController
+@RestController("adminSetmealController")
 @RequestMapping("/admin/setmeal")
 @Api(tags = "套餐相关接口")
 public class SetmealController {
