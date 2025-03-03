@@ -19,7 +19,7 @@ import java.util.List;
  * @Author Java小猪
  * @Date 2025/2/21 10:44
  */
-@RestController
+@RestController("adminDishController")
 @RequestMapping("/admin/dish")
 @Api(tags = "菜品相关接口")
 @Slf4j
