@@ -22,6 +22,7 @@ import java.util.Map;
 
 /**
  * Http工具类
+ * @author Diamond
  */
 public class HttpClientUtil {
 
