@@ -32,8 +32,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     /**
      * 添加购物车
-     *
-     * @param shoppingCartDTO
      */
     @Override
     public void add(ShoppingCartDTO shoppingCartDTO) {
@@ -73,5 +71,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCartMapper.insert(shoppingCart);
         }
 
+    }
+
+    /**
+     * 查询购物车
+     */
+    @Override
+    public List<ShoppingCart> getShoppingCart() {
+        ShoppingCart shoppingCart = ShoppingCart.builder()
+                .userId(BaseContext.getCurrentId())
+                .build();
+        return shoppingCartMapper.list(shoppingCart);
     }
 }
