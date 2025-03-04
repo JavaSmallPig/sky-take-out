@@ -21,6 +21,7 @@ public interface ShoppingCartMapper {
     List<ShoppingCart> list(ShoppingCart shoppingCart);
 
     /**
+     * 根据id修改商品数量
      * @param shoppingCart
      */
     @Update("update shopping_cart set number = #{number} where id = #{id}")

@@ -38,15 +38,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         // 判断当前加入到购物车的商品是否已经存在
         ShoppingCart shoppingCart = new ShoppingCart();
         BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
-        Long id = BaseContext.getCurrentId();
-        shoppingCart.setUserId(id);
+        Long userId = BaseContext.getCurrentId();
+        shoppingCart.setUserId(userId);
 
-        List<ShoppingCart> shoppingCartList = shoppingCartMapper.list(shoppingCart);
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
 
         // 如果存在，则number+1
-        if (shoppingCartList != null && !shoppingCartList.isEmpty()) {
-            ShoppingCart cart = shoppingCartList.get(0);
-            shoppingCart.setNumber(cart.getNumber() + 1);
+        if (list != null && !list.isEmpty()) {
+            ShoppingCart cart = list.get(0);
+            cart.setNumber(cart.getNumber() + 1);
             shoppingCartMapper.updateNumberById(cart);
         } else {
             // 如果不存在，则插入一条购物车数据
