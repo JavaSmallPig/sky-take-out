@@ -79,8 +79,20 @@ public class OrderController {
      */
     @GetMapping("/orderDetail/{id}")
     @ApiOperation("查询订单详情")
-    public Result<OrderVO> detail(@PathVariable("id") Integer id) {
+    public Result<OrderVO> detail(@PathVariable("id") Long id) {
         OrderVO orderVO = orderService.detail(id);
         return Result.success(orderVO);
+    }
+
+    /**
+     * 取消订单
+     * @param id
+     * @return
+     */
+    @PutMapping("/cancel/{id}")
+    @ApiOperation("取消订单")
+    public Result<String> cancel(@PathVariable("id") Long id) throws Exception {
+        orderService.cancel(id);
+        return Result.success();
     }
 }
