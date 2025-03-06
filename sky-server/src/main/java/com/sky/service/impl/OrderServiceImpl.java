@@ -242,7 +242,7 @@ public class OrderServiceImpl implements OrderService {
         if (ordersDB.getStatus() > 2) {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         } else {
-            // 前端没有写付款页面取消支付的逻辑
+            // 前端没有写付款页面取消支付的逻辑 而是在历史订单里取消订单
             Orders orders = Orders.builder()
                     .id(ordersDB.getId())
                     .status(Orders.CANCELLED)
