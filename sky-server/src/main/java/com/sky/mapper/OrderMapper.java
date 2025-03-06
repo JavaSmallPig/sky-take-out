@@ -1,5 +1,7 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -30,10 +32,6 @@ public interface OrderMapper {
      */
     void update(Orders orders);
 
-    @Update("update orders set status = #{orderStatus}, checkout_time = #{checkoutTime},pay_status = #{orderPaidStatus} where id = #{orderId}")
-    void updateStatus(Integer orderStatus, LocalDateTime checkoutTime, Integer orderPaidStatus, Long orderId);
-
-
     /**
 
      * 用于替换微信支付更新数据库状态的问题
@@ -43,6 +41,12 @@ public interface OrderMapper {
      * @param orderPaidStatus
 
      */
-    /*@Update("update orders set pay_status = #{orderPaidStatus} ,status = #{orderStatus}, ,checkout_time = #{check_out_time} where id = #{orderId}")
-    void updateStatus(Integer orderPaidStatus, Integer orderStatus, LocalDateTime checkOutTime, Long orderId);*/
+    @Update("update orders set status = #{orderStatus}, checkout_time = #{checkoutTime},pay_status = #{orderPaidStatus} where id = #{orderId}")
+    void updateStatus(Integer orderStatus, LocalDateTime checkoutTime, Integer orderPaidStatus, Long orderId);
+
+    /**
+     * 分页条件查询并按下单时间排序
+     * @param ordersPageQueryDTO
+     */
+    Page<Orders> query(OrdersPageQueryDTO ordersPageQueryDTO);
 }
