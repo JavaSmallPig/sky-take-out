@@ -20,6 +20,7 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import com.sky.websocket.WebSocketServer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
  * @Date 2025/3/5 15:28
  */
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Resource
@@ -303,5 +305,17 @@ public class OrderServiceImpl implements OrderService {
         }).collect(Collectors.toList());
         // 将购物车对象批量添加到数据库
         shoppingCartMapper.insertBatch(shoppingCartList);
+    }
+
+    /**
+     * 催单
+     *
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        Orders orders = orderMapper.getById(id);
+        Long ordersId = orders.getId();
+        log.info("催单信息已发出，订单号为：{}", ordersId);
     }
 }
