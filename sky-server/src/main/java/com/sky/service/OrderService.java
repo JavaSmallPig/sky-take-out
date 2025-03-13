@@ -52,7 +52,7 @@ public interface OrderService {
      * 取消订单
      * @param id
      */
-    void cancel(Long id) throws Exception;
+    void cancelById(Long id) throws Exception;
 
     /**
      * 再来一单
@@ -90,4 +90,11 @@ public interface OrderService {
      * @param ordersRejectionDTO
      */
     void rejection(OrdersRejectionDTO ordersRejectionDTO);
+
+    /**
+     * 商家取消订单
+     *
+     * @param ordersCancelDTO
+     */
+    void cancel(OrdersCancelDTO ordersCancelDTO) throws Exception;
 }
