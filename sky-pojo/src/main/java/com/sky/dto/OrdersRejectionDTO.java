@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author Diamond
+ */
 @Data
 public class OrdersRejectionDTO implements Serializable {
 

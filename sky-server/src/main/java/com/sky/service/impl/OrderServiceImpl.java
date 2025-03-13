@@ -5,10 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
-import com.sky.dto.OrdersDTO;
-import com.sky.dto.OrdersPageQueryDTO;
-import com.sky.dto.OrdersPaymentDTO;
-import com.sky.dto.OrdersSubmitDTO;
+import com.sky.dto.*;
 import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
@@ -390,13 +387,40 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 接单
      *
-     * @param ordersDTO
+     * @param ordersConfirmDTO
      */
     @Override
-    public void confirm(OrdersDTO ordersDTO) {
+    public void confirm(OrdersConfirmDTO ordersConfirmDTO) {
         Orders orders = Orders.builder()
-                .id(ordersDTO.getId())
+                .id(ordersConfirmDTO.getId())
                 .status(Orders.CONFIRMED)
+                .build();
+        orderMapper.update(orders);
+    }
+
+    /**
+     * 拒单
+     *
+     * @param ordersRejectionDTO
+     */
+    @Override
+    public void rejection(OrdersRejectionDTO ordersRejectionDTO) {
+        // 查询订单
+        Orders ordersDb = orderMapper.getById(ordersRejectionDTO.getId());
+        // 订单存在且状态为2时才能拒单
+        if (ordersDb == null || !ordersDb.getStatus().equals(Orders.TO_BE_CONFIRMED)) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        //支付状态 用户已支付，需要退款
+        if (ordersDb.getPayStatus().equals(Orders.PAID)) {
+            log.info("已退款");
+        }
+        // 拒单需要退款，根据订单id更新订单状态、拒单原因、取消时间
+        Orders orders = Orders.builder()
+                .id(ordersDb.getId())
+                .status(Orders.CANCELLED)
+                .rejectionReason(ordersRejectionDTO.getRejectionReason())
+                .cancelTime(LocalDateTime.now())
                 .build();
         orderMapper.update(orders);
     }
